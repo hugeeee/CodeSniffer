@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/computard/se3/svn/!svn/ver/171/CodeSnifferPro/src/smells
+END
+ExcessiveCommenting.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/computard/se3/svn/!svn/ver/171/CodeSnifferPro/src/smells/ExcessiveCommenting.java
+END
+GodClass.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/computard/se3/svn/!svn/ver/162/CodeSnifferPro/src/smells/GodClass.java
+END
+DeepNesting.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/computard/se3/svn/!svn/ver/171/CodeSnifferPro/src/smells/DeepNesting.java
+END
+LazyClass.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/computard/se3/svn/!svn/ver/171/CodeSnifferPro/src/smells/LazyClass.java
+END
+Bloater.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/computard/se3/svn/!svn/ver/171/CodeSnifferPro/src/smells/Bloater.java
+END

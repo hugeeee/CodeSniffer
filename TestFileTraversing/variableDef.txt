@@ -1,0 +1,75 @@
+public class VariableDefinition{
+
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
+
+	private String variableName = "";
+	private String variableType = "";
+	private String associatedMethod = "";
+	private boolean isParam = false;
+	private boolean isPrimitive = false;
+	
+	public boolean isPrimitive() {
+		return isPrimitive;
+	}
+	public void setPrimitive(boolean isPrimitive) {
+		this.isPrimitive = isPrimitive;
+	}
+	public boolean isParam() {
+		return isParam;
+	}
+	public void setParam(boolean isParam) {
+		this.isParam = isParam;
+	}
+	public String getVariableName() {
+		return variableName;
+	}
+	public void setVariableName(String variableName) {
+		this.variableName = variableName;
+	}
+	public String getVariableType() {
+		return variableType;
+	}
+	public void setVariableType(String variableType) {
+		this.variableType = variableType;
+	}
+	public String getAssociatedMethod() {
+		return associatedMethod;
+	}
+	public void setAssociatedMethod(String associatedMehtod) {
+		this.associatedMethod = associatedMehtod;
+	}
+	
+}

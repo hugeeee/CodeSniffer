@@ -1,0 +1,738 @@
+package GUI;
+
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import java.awt.Point;
+import javax.swing.JButton;
+
+import codeCritic.CriticalTextAnalyzer;
+import codeCritic.Detector;
+
+import java.awt.Rectangle;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.JRadioButton;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.ImageIcon;
+import java.awt.SystemColor;
+import javax.swing.JProgressBar;
+
+public class MainScreen {
+
+	public static JFrame jFrameMainScreen = null;
+	private JPanel jContentPane = null;
+	private JMenuBar jJMenuBar = null;
+	private JMenu fileMenu = null;
+	private JMenu editMenu = null;
+	private JMenu helpMenu = null;
+	private JMenuItem exitMenuItem = null;
+	private JMenuItem aboutMenuItem = null;
+	private JMenuItem cutMenuItem = null;
+	private JMenuItem copyMenuItem = null;
+	private JMenuItem pasteMenuItem = null;
+	private JMenuItem saveMenuItem = null;
+	private JDialog aboutDialog = null;  //  @jve:decl-index=0:visual-constraint="684,112"
+	private JPanel aboutContentPane = null;
+	private JLabel aboutVersionLabel = null;
+	private JPanel step1JPanel = null;
+	private JPanel step2JPanel = null;
+	private JPanel step3JPanel = null;
+	private JTextField browseJTextField = null;
+	private JButton browseJButton = null;
+	private JRadioButton smell4JRadioButton = null;
+	private JRadioButton bloaterRadioButton = null;
+	private JRadioButton deepNestingRadioButton = null;
+	private JLabel smell1JLabel = null;
+	private JLabel smell4JLabel = null;
+	private JLabel deepNestingLabel = null;
+	private JButton start_Button = null;
+	private JButton configuration_Button = null;
+	private JButton exit_Button = null;
+	private JButton codeSmellInfojButton = null;
+	private JPanel mainJPanel = null;
+	private JPanel browseJPanel;
+
+	private boolean bloaterFlag = false;
+	private boolean lazyFlag = false;
+	private boolean deepNestingFlag = false;
+	private boolean envyFlag = false;
+	private boolean excessiveCommentingFlag = false;
+	private boolean godFlag = false;
+
+	private JRadioButton GodClassRadioButton = null;
+	private JLabel GodClassLabel = null;
+	private JRadioButton ExcessiveCommentingRadioButton = null;
+	private JLabel ExcessCommentLabel = null;
+	/**
+	 * @wbp.parser.entryPoint
+	 */
+	public MainScreen() {
+		getJFrame().setVisible(true);
+	}
+
+	/**
+	 * This method initializes jFrame
+	 * 
+	 * @return javax.swing.JFrame
+	 */
+	JFrame getJFrame() {
+		if (jFrameMainScreen == null) {
+			jFrameMainScreen = new JFrame();
+			jFrameMainScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			jFrameMainScreen.setResizable(false);
+			jFrameMainScreen.setJMenuBar(getJJMenuBar());
+			jFrameMainScreen.setSize(625, 570);
+			jFrameMainScreen.setLocationRelativeTo(null);// Centre Window for
+			// everyones display
+			jFrameMainScreen.setContentPane(getJContentPane());
+			jFrameMainScreen
+			.setTitle("Code Sniffer Pro - Special Edition Version 1.0");
+		}
+		return jFrameMainScreen;
+	}
+
+	private JPanel getJContentPane() {
+		if (jContentPane == null) {
+			jContentPane = new JPanel();
+			jContentPane.setLayout(new BorderLayout());
+			jContentPane.add(getMainJPanel(), null);
+		}
+		return jContentPane;
+	}
+
+	private JPanel getMainJPanel() {
+		if (mainJPanel == null) {
+			mainJPanel = new JPanel();
+			mainJPanel.setLayout(null);
+			mainJPanel.setBackground(Color.white);
+			mainJPanel.add(getStep1JPanel());
+			mainJPanel.add(getStep2JPanel());
+			mainJPanel.add(getStep3JPanel());
+		}
+		return mainJPanel;
+	}
+
+	private JPanel getStep1JPanel() {
+		if (step1JPanel == null) {
+			step1JPanel = new JPanel();
+			step1JPanel.setBounds(29, 22, 567, 103);
+			step1JPanel.setLayout(null);
+			step1JPanel.setBorder(new TitledBorder("Step 1 - Choose Project "));
+			step1JPanel.setBackground(Color.white);
+			step1JPanel.add(getBrowseJPanel());
+		}
+		return step1JPanel;
+	}
+
+	private JPanel getStep2JPanel() {
+		if (step2JPanel == null) {
+			ExcessCommentLabel = new JLabel();
+			ExcessCommentLabel.setBounds(new Rectangle(311, 49, 141, 20));
+			ExcessCommentLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			ExcessCommentLabel.setText("Excessive Commenting");
+			GodClassLabel = new JLabel();
+			GodClassLabel.setBounds(new Rectangle(76, 149, 83, 22));
+			GodClassLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			GodClassLabel.setText("God Class");
+			step2JPanel = new JPanel();
+			step2JPanel.setLayout(null);
+			step2JPanel.setBounds(29, 137, 567, 199);
+			step2JPanel.setBorder(new TitledBorder(
+			"Step 2 - Choose code smells to analyse "));
+			step2JPanel.setBackground(Color.white);
+			step2JPanel.add(getCodeSmellInfoJButton());
+			step2JPanel.add(getSmell1JLabel());
+			step2JPanel.add(getDeepLevelNestingLabel());
+			step2JPanel.add(getSmell4JLabel());
+			step2JPanel.add(getBloaterRadioCheck());
+			step2JPanel.add(getDeepNestingButton());
+			step2JPanel.add(lazyClassRadioButton());
+
+			step2JPanel.add(getGodClassRadioButton(), null);
+			step2JPanel.add(GodClassLabel, null);
+			step2JPanel.add(getExcessiveCommentingRadioButton(), null);
+			step2JPanel.add(ExcessCommentLabel, null);
+		}
+		return step2JPanel;
+	}
+
+	private JPanel getStep3JPanel() {
+		if (step3JPanel == null) {
+			step3JPanel = new JPanel();
+			step3JPanel.setLayout(null);
+			step3JPanel.setBounds(29, 348, 567, 154);
+			step3JPanel.setBorder(new TitledBorder("Step 3 - Begin Analysis "));
+			step3JPanel.setBackground(Color.white);
+			step3JPanel.add(getConfig_button());
+			step3JPanel.add(getExit_button());
+			step3JPanel.add(getStart_button());
+
+		}
+		return step3JPanel;
+	}
+
+	private JPanel getBrowseJPanel() {
+		if (browseJPanel == null) {
+			browseJPanel = new JPanel();
+			browseJPanel.setLayout(null);
+
+			browseJPanel.setBounds(49, 45, 468, 22);
+
+			browseJPanel.setBounds(49, 45, 468, 22);
+
+			browseJPanel.add(getBrowseJTextField());
+			browseJPanel.add(getBrowseJButton());
+		}
+		return browseJPanel;
+	}
+
+	// -------------------------------------------------JLabels--------------------------------------------------//
+
+	private JLabel getSmell1JLabel() {
+		if (smell1JLabel == null) {
+			smell1JLabel = new JLabel();
+			smell1JLabel.setBounds(76, 50, 53, 20);
+			smell1JLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			smell1JLabel.setText("Bloater");
+		}
+		return smell1JLabel;
+	}
+
+	private JLabel getDeepLevelNestingLabel() {
+		if (deepNestingLabel == null) {
+			deepNestingLabel = new JLabel();
+			deepNestingLabel.setText("Deep Nesting");
+			deepNestingLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			deepNestingLabel.setBounds(76, 99, 90, 20);
+
+		}
+		return deepNestingLabel;
+	}
+
+
+	private JLabel getSmell4JLabel() {
+		if (smell4JLabel == null) {
+			smell4JLabel = new JLabel();
+			smell4JLabel.setText("Lazy Class");
+			smell4JLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			smell4JLabel.setBounds(313, 99, 85, 20);
+
+		}
+		return smell4JLabel;
+	}
+
+	// -------------------------------------------------About Screen
+	// Stuff--------------------------------------------------//
+
+	/**
+	 * This method initializes aboutVersionLabel
+	 * 
+	 * @return javax.swing.JLabel
+	 */
+	private JLabel getAboutVersionLabel() {
+		if (aboutVersionLabel == null) {
+			aboutVersionLabel = new JLabel();
+			aboutVersionLabel.setText("");
+			aboutVersionLabel.setIcon(new ImageIcon(getClass().getResource("/GUI/computardlogo2.jpg")));
+			aboutVersionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return aboutVersionLabel;
+	}
+
+	/**
+	 * This method initializes aboutDialog
+	 * 
+	 * @return javax.swing.JDialog
+	 */
+	private JDialog getAboutDialog() {
+		if (aboutDialog == null) {
+			aboutDialog = new JDialog(getJFrame(), true);
+			aboutDialog.setTitle("About");
+			aboutDialog.setSize(new Dimension(308, 211));
+			aboutDialog.setResizable(false);
+			aboutDialog.setContentPane(getAboutContentPane());
+		}
+		return aboutDialog;
+	}
+
+	/**
+	 * This method initializes aboutContentPane
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getAboutContentPane() {
+		if (aboutContentPane == null) {
+			aboutContentPane = new JPanel();
+			aboutContentPane.setLayout(new BorderLayout());
+			aboutContentPane.add(getAboutVersionLabel(), BorderLayout.CENTER);
+		}
+		return aboutContentPane;
+	}
+
+	// -------------------------------------------------JMenuItems--------------------------------------------------//
+
+	/**
+	 * This method initializes jJMenuBar
+	 * 
+	 * @return javax.swing.JMenuBar
+	 */
+	private JMenuBar getJJMenuBar() {
+		if (jJMenuBar == null) {
+			jJMenuBar = new JMenuBar();
+			jJMenuBar.add(getFileMenu());
+			jJMenuBar.add(getEditMenu());
+			jJMenuBar.add(getHelpMenu());
+		}
+		return jJMenuBar;
+	}
+
+	/**
+	 * This method initializes jMenu
+	 * 
+	 * @return javax.swing.JMenu
+	 */
+	private JMenu getFileMenu() {
+		if (fileMenu == null) {
+			fileMenu = new JMenu();
+			fileMenu.setText("File");
+			fileMenu.add(getSaveMenuItem());
+			fileMenu.add(getExitMenuItem());
+		}
+		return fileMenu;
+	}
+
+	/**
+	 * This method initializes jMenu
+	 * 
+	 * @return javax.swing.JMenu
+	 */
+	private JMenu getEditMenu() {
+		if (editMenu == null) {
+			editMenu = new JMenu();
+			editMenu.setText("Edit");
+			editMenu.add(getCutMenuItem());
+			editMenu.add(getCopyMenuItem());
+			editMenu.add(getPasteMenuItem());
+		}
+		return editMenu;
+	}
+
+	/**
+	 * This method initializes jMenu
+	 * 
+	 * @return javax.swing.JMenu
+	 */
+	private JMenu getHelpMenu() {
+		if (helpMenu == null) {
+			helpMenu = new JMenu();
+			helpMenu.setText("Help");
+			helpMenu.add(getAboutMenuItem());
+		}
+		return helpMenu;
+	}
+
+	/**
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getExitMenuItem() {
+		if (exitMenuItem == null) {
+			exitMenuItem = new JMenuItem();
+			exitMenuItem.setText("Exit");
+			exitMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);
+				}
+			});
+		}
+		return exitMenuItem;
+	}
+
+	/**
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getAboutMenuItem() {
+		if (aboutMenuItem == null) {
+			aboutMenuItem = new JMenuItem();
+			aboutMenuItem.setText("About");
+			aboutMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JDialog aboutDialog = getAboutDialog();
+					aboutDialog.pack();
+					Point loc = getJFrame().getLocation();
+					loc.translate(20, 20);
+					aboutDialog.setLocation(loc);
+					aboutDialog.setVisible(true);
+				}
+			});
+		}
+		return aboutMenuItem;
+	}
+
+	/**
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getCutMenuItem() {
+		if (cutMenuItem == null) {
+			cutMenuItem = new JMenuItem();
+			cutMenuItem.setText("Cut");
+			cutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
+					Event.CTRL_MASK, true));
+		}
+		return cutMenuItem;
+	}
+
+	/**
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getCopyMenuItem() {
+		if (copyMenuItem == null) {
+			copyMenuItem = new JMenuItem();
+			copyMenuItem.setText("Copy");
+			copyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
+					Event.CTRL_MASK, true));
+		}
+		return copyMenuItem;
+	}
+
+	/**
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getPasteMenuItem() {
+		if (pasteMenuItem == null) {
+			pasteMenuItem = new JMenuItem();
+			pasteMenuItem.setText("Paste");
+			pasteMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,
+					Event.CTRL_MASK, true));
+		}
+		return pasteMenuItem;
+	}
+
+	/**
+	 * This method initializes jMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getSaveMenuItem() {
+		if (saveMenuItem == null) {
+			saveMenuItem = new JMenuItem();
+			saveMenuItem.setText("Save");
+			saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+					Event.CTRL_MASK, true));
+		}
+		return saveMenuItem;
+	}
+
+	/**
+	 * This method initializes browseJTextField
+	 * 
+	 * @return javax.swing.JTextField
+	 */
+	private JTextField getBrowseJTextField() {
+		if (browseJTextField == null) {
+			browseJTextField = new JTextField();
+			browseJTextField.setMargin(null);
+			browseJTextField.setBounds(0, 0, 389, 22);
+		}
+		return browseJTextField;
+	}
+
+	// -------------------------------------------------JButtons--------------------------------------------------//
+
+	/**
+	 * This method initializes config_button
+	 * 
+	 * @return javax.swing.JButton
+	 */
+	private JButton getConfig_button() {
+		if (configuration_Button == null) {
+			configuration_Button = new JButton();
+			configuration_Button.setText("Smell Settings");
+			configuration_Button.setToolTipText("Click to Enter Configuration Settings");
+			configuration_Button.setBounds(221, 68, 117, 30);
+			configuration_Button.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+
+					new Config();
+				}
+			});
+		}
+		return configuration_Button;
+	}
+
+	/**
+	 * This method initializes exit_button1
+	 * 
+	 * @return javax.swing.JButton
+	 */
+	private JButton getExit_button() {
+		if (exit_Button == null) {
+			exit_Button = new JButton();
+			exit_Button.setText("Quit");
+			exit_Button.setToolTipText("Quit Application");
+			exit_Button.setBounds(396, 68, 100, 30);
+			exit_Button.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					System.exit(0);
+				}
+			});
+
+		}
+		return exit_Button;
+	}
+
+	/**
+	 * This method initializes direc_button
+	 * 
+	 * @return javax.swing.JButton
+	 */
+	private JButton getBrowseJButton() {
+		if (browseJButton == null) {
+			browseJButton = new JButton();
+			browseJButton.setBounds(390, 0, 78, 22);
+
+			browseJButton.setToolTipText("Open Project for Analysis");
+			browseJButton.setText("Browse");
+			browseJButton
+			.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					// File choose to let you choose a directory
+					JFileChooser chooser = new JFileChooser();
+					chooser.setCurrentDirectory(new java.io.File("."));
+					chooser.setDialogTitle("Choose Project to Analyse");
+					chooser
+					.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+					chooser.setAcceptAllFileFilterUsed(true);
+
+					if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+
+						// sets the text area in step 1 to the Directory
+						// choosen by the user
+						browseJTextField.setText(chooser.getSelectedFile().getAbsolutePath());
+
+					} else {
+						System.out.println("No Selection ");
+
+					}
+				}
+			});
+
+		}
+		return browseJButton;
+	}
+
+	/**
+	 * This method initializes start_button
+	 * 
+	 * @return javax.swing.JButton
+	 */
+	private JButton getStart_button() {
+		if (start_Button == null) {
+			start_Button = new JButton();
+			start_Button.setText("Start");
+			start_Button.setToolTipText("Run Code Sniffer Pro");
+			start_Button.setBounds(63, 68, 100, 30);
+			start_Button.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					CriticalTextAnalyzer cta = null;
+					File test = new File(browseJTextField.getText());
+					if (bloaterFlag || deepNestingFlag || excessiveCommentingFlag
+							|| lazyFlag || godFlag){
+						if (test.isFile() || test.isDirectory()) {
+							try {
+								cta = new CriticalTextAnalyzer(browseJTextField
+										.getText());
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							cta.getNumberOfClasses();
+							Detector detector = new Detector();
+							detector.setCTA(cta);
+							detector.detectSmells(bloaterFlag, deepNestingFlag, excessiveCommentingFlag, lazyFlag, godFlag);
+							detector.outputReport();
+
+						}else{JOptionPane.showMessageDialog(null,
+								"The folder or file you have chosen is not correct. It is either empty" +
+								" or invalid. Please re-select.",
+								"Inane warning",
+								JOptionPane.WARNING_MESSAGE);}
+					}else{JOptionPane.showMessageDialog(null,
+							"You have not selected a smell to detect. Please check one at least one smell to detect.",
+							"Inane warning",
+							JOptionPane.WARNING_MESSAGE);}
+				}
+			});
+		}
+		return start_Button;
+	}
+
+	/**
+	 * This method initializes codeSmell_Info_Button
+	 * 
+	 * @return javax.swing.JButton
+	 */
+	private JButton getCodeSmellInfoJButton() {
+		if (codeSmellInfojButton == null) {
+			codeSmellInfojButton = new JButton();
+			codeSmellInfojButton.setBounds(287, 150, 151, 30);
+			codeSmellInfojButton.setToolTipText("Click to View Information on Code Smells");
+			codeSmellInfojButton.setText("Smells Information");
+			codeSmellInfojButton.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+
+					 CodeSmells codesmell = new CodeSmells();
+					 jFrameMainScreen.setVisible(true);
+					 codesmell.getJFrame().setVisible(true);
+
+					new CodeSmells();
+					
+					// jFrameMainScreen.setVisible(true);
+					// codesmell.getJFrame().setVisible(true);
+
+				}
+			});
+		}
+		return codeSmellInfojButton;
+	}
+
+	// -------------------------------------------------JRadioButtons--------------------------------------------------//
+
+	/**
+	 * This method initializes rbt_smell_1
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getBloaterRadioCheck() {
+		if (bloaterRadioButton == null) {
+			bloaterRadioButton = new JRadioButton();
+			bloaterRadioButton.setBounds(43, 50, 21, 22);
+			bloaterRadioButton.setBackground(Color.white);
+			bloaterRadioButton.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					if (bloaterFlag == false) {
+						bloaterFlag = true;
+					} else {
+						bloaterFlag = false;
+					}
+				}
+			});
+		}
+		return bloaterRadioButton;
+	}
+
+	/**
+	 * This method initializes rbt_smell_4
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getDeepNestingButton() {
+		if (deepNestingRadioButton == null) {
+			deepNestingRadioButton = new JRadioButton();
+			deepNestingRadioButton.setBounds(42, 97, 22, 22);
+			deepNestingRadioButton.setBackground(Color.white);
+			deepNestingRadioButton
+			.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					if (deepNestingFlag == false) {
+						deepNestingFlag = true;
+					} else {
+						deepNestingFlag = false;
+					}
+				}
+			});
+		}
+		return deepNestingRadioButton;
+	}
+
+	/**
+	 * This method initializes rbt_smell_2
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+
+	private JRadioButton lazyClassRadioButton() {
+		if (smell4JRadioButton == null) {
+			smell4JRadioButton = new JRadioButton();
+			smell4JRadioButton.setBounds(new Rectangle(279, 99, 22, 22));
+			smell4JRadioButton.setBackground(Color.white);
+			smell4JRadioButton
+			.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					if (lazyFlag == false) {
+						lazyFlag = true;
+					} else {
+						lazyFlag = false;
+					}
+				}
+			});
+		}
+		return smell4JRadioButton;
+
+	}
+
+	/**
+	 * This method initializes GodClassRadioButton
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getGodClassRadioButton() {
+		if (GodClassRadioButton == null) {
+			GodClassRadioButton = new JRadioButton();
+			GodClassRadioButton.setBounds(new Rectangle(43, 149, 21, 21));
+			GodClassRadioButton.setBackground(Color.white);
+			GodClassRadioButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(godFlag == false){
+						godFlag = true;
+					}else{godFlag = false;}
+				}
+			});
+		}
+		return GodClassRadioButton;
+	}
+
+	/**
+	 * This method initializes ExcessiveCommentingRadioButton
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getExcessiveCommentingRadioButton() {
+		if (ExcessiveCommentingRadioButton == null) {
+			ExcessiveCommentingRadioButton = new JRadioButton();
+			ExcessiveCommentingRadioButton.setBounds(new Rectangle(278, 50, 21, 21));
+			ExcessiveCommentingRadioButton.setBackground(Color.white);
+			ExcessiveCommentingRadioButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(excessiveCommentingFlag == false){
+						excessiveCommentingFlag = true;
+					}
+					else if(excessiveCommentingFlag == true){
+						excessiveCommentingFlag = false;
+					}
+				}
+			});
+		}
+		return ExcessiveCommentingRadioButton;
+	}
+
+}

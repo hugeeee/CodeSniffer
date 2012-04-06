@@ -1,0 +1,160 @@
+package codeCritic;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+// 22 and its not working correctly or this breaks it.
+
+public class CriticalTextAnalyzer extends Text{
+	
+	private int numAlphaNumeric   = 0;
+	private int numLiteralStrings = 0;
+	
+	private final String delims = " \\\t\n,;{}[]().-<>&^%$@!-+/*~=";
+	
+	private boolean inString = false, inComment = false;
+
+	//-----------------------------------------------------------1//
+	//-----------------------------------------------------------2//
+	//    Constructor3
+	//-----------------4------------------------------------------//
+	//------------------5-----------------------------------------//
+
+	public CriticalTextAnalyzer(String fileName) {
+		processFile(fileName);
+	}
+
+	
+	//--6---------------------------------------------------------//
+	//---7--------------------------------------------------------//
+	// Public interface Routines8
+	//---------------------------9--------------------------------//
+	//----------------------------10-------------------------------//
+
+	public int getNumAlphaNumericTokens() {
+		return numAlphaNumeric;
+	}
+	
+	public int getNumLiteralStrings() {
+		return numLiteralStrings;
+	}
+
+	//---11--------------------------------------------------------//
+	//-----12------------------------------------------------------//
+	// Private mechanisms of File Processor13
+	//---------------------------------------14--------------------//
+	//-----------------------------------------15------------------//
+	
+	private void processFile(String fileName) {
+
+		try {
+			File file = new File(fileName);
+			
+			Scanner fileScanner = new Scanner(file);
+			
+			while (fileScanner.hasNextLine()) {
+				String line = fileScanner.nextLine();
+				
+				processLine(line);
+			}
+			
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+	
+	private void processLine(String line) 
+	{	
+		String current = null, previous = null;
+		
+		StringTokenizer splitter = new StringTokenizer(line, delims, true);
+		
+		while (splitter.hasMoreTokens())	
+		{
+			previous = current;
+			current = splitter.nextToken();
+			
+			if (!inComment && "/".equals(previous) && "/".equals(current))
+				return;
+			else
+			if (!inComment && !inString && "/".equals(previous) && "*".equals(current))
+				inComment = true;
+			else
+			if (inComment && !inString && "*".equals(previous) && "/".equals(current))
+				inComment = false;
+			else
+			if (!inString && !inComment && "\"".equals(current) && !"\\".equals(previous) && !"'".equals(previous))
+			{
+				numLiteralStrings++;
+				inString = true;
+				
+				System.out.println("*** "+ numLiteralStrings + ": " + line);
+			}
+			else
+			if (inString && !inComment && "\"".equals(current) && !"\\".equals(previous))
+				inString = false;
+			else
+				processToken(current);
+		}
+	}
+	
+	
+	
+	
+	private void processToken(String current)
+	{
+		if (!inString && !inComment && isAlphanumericToken(current))
+		{
+			System.out.println(current);
+		
+			numAlphaNumeric++;				
+		}		
+		
+	}
+
+	
+	private boolean isAlphanumericToken(String token) {
+		if (token == null || token.length() == 0) 
+			return false;
+		
+		if (!Character.isLetter(token.charAt(0)) && token.charAt(0) != '_')
+			return false;
+
+		if (token.charAt(0) == '_' && token.length() == 1)
+			return false;
+		
+		for (int i = 1; i < token.length(); i++)
+		{
+			if (!Character.isLetter(token.charAt(i)) 
+					&& !Character.isDigit(token.charAt(i)) 
+					&& token.charAt(i) != '_')
+				return false;
+		}
+		
+		return true;
+	}
+	
+	
+	//========16=====================================================================//
+	//==========17===================================================================//
+	//   Main Application Stub18
+	//==========================19===================================================//
+	//============================20=================================================//
+	
+	public static void main(String[] args)
+	{
+		CriticalTextAnalyzer critic = new CriticalTextAnalyzer("test/testfile.txt");
+		
+		System.out.println(critic.getNumAlphaNumericTokens() + " token(s)");
+		
+		System.out.println(critic.getNumLiteralStrings() + " string(s)");
+	}
+	
+
+	
+}
+// 89 lines of code

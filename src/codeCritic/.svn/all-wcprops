@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/computard/se3/svn/!svn/ver/169/CodeSnifferPro/src/codeCritic
+END
+CriticalTextAnalyzer.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/computard/se3/svn/!svn/ver/172/CodeSnifferPro/src/codeCritic/CriticalTextAnalyzer.java
+END
+DirectoryTraver.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/computard/se3/svn/!svn/ver/162/CodeSnifferPro/src/codeCritic/DirectoryTraver.java
+END
+Detector.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/computard/se3/svn/!svn/ver/166/CodeSnifferPro/src/codeCritic/Detector.java
+END
+Report.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/computard/se3/svn/!svn/ver/169/CodeSnifferPro/src/codeCritic/Report.java
+END
